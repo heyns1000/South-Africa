@@ -1,0 +1,93 @@
+{
+  "name": "Fruitful South Africa Integration",
+  "version": "1.0.0",
+  "description": "Universal integration configuration for the Fruitful South Africa multi-brand ecosystem",
+  
+  "apiEndpoints": {
+    "health": "/api/fruitful/health",
+    "brands": "/api/fruitful/brands",
+    "paypal": "/api/paypal",
+    "gemini": "/api/gemini"
+  },
+
+  "paymentTiers": {
+    "starter": {
+      "buttonId": "YOUR_STARTER_BUTTON_ID_HERE",
+      "name": "Starter Package",
+      "description": "Basic access to South African brands"
+    },
+    "pro": {
+      "buttonId": "YOUR_PRO_BUTTON_ID_HERE",
+      "name": "Pro Package",
+      "description": "Full access with Logic & Automation brands"
+    },
+    "enterprise": {
+      "buttonId": "YOUR_ENTERPRISE_BUTTON_ID_HERE",
+      "name": "Enterprise Package",
+      "description": "Complete ecosystem including Sovereign Insurance"
+    },
+    "banimal": {
+      "buttonId": "YOUR_BANIMAL_BUTTON_ID_HERE",
+      "name": "Banimal Loop Plan",
+      "description": "Specialized plan for Banimal integration"
+    }
+  },
+
+  "brandCategories": [
+    {
+      "id": "sa_brands",
+      "name": "South African Brands",
+      "description": "Products focused on South African market needs",
+      "count": 6
+    },
+    {
+      "id": "logic_brands",
+      "name": "Logic & Automation",
+      "description": "AI and automation solutions",
+      "count": 3
+    },
+    {
+      "id": "insurance_brands",
+      "name": "Sovereign Insurance",
+      "description": "Insurance and risk management products",
+      "count": 3
+    }
+  ],
+
+  "features": {
+    "paypal_payments": true,
+    "google_maps": true,
+    "spotify_integration": true,
+    "gemini_ai": true,
+    "xero_accounting": true,
+    "firebase_auth": true,
+    "currency_conversion": true
+  },
+
+  "deployment": {
+    "replit": {
+      "workflowCommand": "npm run dev",
+      "buildCommand": "npm run build",
+      "port": 5000
+    }
+  },
+
+  "security": {
+    "useAccountSecrets": true,
+    "requiredSecrets": [
+      "PAYPAL_CLIENT_ID",
+      "PAYPAL_CLIENT_SECRET",
+      "GOOGLE_MAPS_API_KEY",
+      "GEMINI_API_KEY",
+      "XERO_CLIENT_ID",
+      "XERO_CLIENT_SECRET"
+    ],
+    "optionalSecrets": [
+      "SPOTIFY_TOKEN",
+      "EXCHANGE_RATE_API_KEY",
+      "VITE_FIREBASE_API_KEY",
+      "VITE_FIREBASE_APP_ID",
+      "VITE_FIREBASE_PROJECT_ID"
+    ]
+  }
+}
