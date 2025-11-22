@@ -1,8 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
 import passport from "passport";
+import WebSocket, { WebSocketServer } from "ws";
 import { createServer } from "http";
-import { Server as WebSocketServer } from "ws";
 import connectPgSimple from "connect-pg-simple";
 import { db } from "../db";
 import { initializePayPal } from "./lib/paypal";
@@ -100,10 +100,10 @@ if (isProduction) {
 app.use(errorHandler);
 
 // WebSocket handling
-wss.on("connection", (ws) => {
+wss.on("connection", (ws: WebSocket) => {
   console.log("WebSocket client connected");
 
-  ws.on("message", (message) => {
+  ws.on("message", (message: WebSocket.RawData) => {
     console.log("Received:", message.toString());
     // Handle WebSocket messages here
   });

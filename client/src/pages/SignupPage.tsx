@@ -5,6 +5,13 @@ import AuthForm from '@/components/AuthForm';
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
 
+type SignupFormData = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export default function SignupPage() {
   const { signup, isSigningUp } = useAuth();
   const { isAuthenticated } = useUser();
@@ -16,8 +23,8 @@ export default function SignupPage() {
     }
   }, [isAuthenticated, setLocation]);
 
-  const handleSubmit = (data: { name: string; email: string; password: string }) => {
-    signup(data);
+  const handleSubmit = (data: SignupFormData) => {
+    signup({ name: data.name, email: data.email, password: data.password });
   };
 
   return (

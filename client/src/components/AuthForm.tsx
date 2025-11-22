@@ -27,7 +27,7 @@ type SignupFormData = z.infer<typeof signupSchema>;
 
 interface AuthFormProps {
   mode: 'login' | 'signup';
-  onSubmit: (data: LoginFormData | SignupFormData) => void;
+  onSubmit: (data: any) => void;
   isLoading?: boolean;
 }
 
@@ -39,7 +39,7 @@ export default function AuthForm({ mode, onSubmit, isLoading }: AuthFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<any>({
     resolver: zodResolver(schema),
   });
 

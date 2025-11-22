@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "../../db";
 import { orders, orderItems, products } from "../../db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { createOrderSchema } from "@shared/schemas";
 import { requireAuth } from "../middleware/auth";
 

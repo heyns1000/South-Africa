@@ -20,7 +20,7 @@ export default function ProductsPage() {
 
   const products = (data?.data || []) as Product[];
 
-  const categories = [...new Set(products.map((p) => p.category))];
+  const categories = Array.from(new Set(products.map((p) => p.category)));
 
   return (
     <div className="container py-8">

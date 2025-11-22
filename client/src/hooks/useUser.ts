@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import type { User } from '@/types';
 
 export function useUser() {
   const { data, isLoading, error } = useQuery({
@@ -10,7 +11,7 @@ export function useUser() {
   });
 
   return {
-    user: data?.data || null,
+    user: data?.data as User | null,
     isLoading,
     error,
     isAuthenticated: !!data?.data,
