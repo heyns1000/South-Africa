@@ -26,8 +26,12 @@ passport.use(
           return done(null, false, { message: "Invalid email or password" });
         }
 
-        // In production, use bcrypt to compare hashed passwords
-        // For now, simple comparison (TO BE IMPROVED)
+        // SECURITY WARNING: Plain text password comparison is used for development only
+        // CRITICAL TODO: Before production, implement bcrypt password hashing:
+        // 1. Install bcrypt: npm install bcrypt @types/bcrypt
+        // 2. Hash passwords on registration: const hash = await bcrypt.hash(password, 10)
+        // 3. Compare on login: const isValid = await bcrypt.compare(password, user.password)
+        // This is a CRITICAL security vulnerability that MUST be fixed before deployment
         if (user.password !== password) {
           return done(null, false, { message: "Invalid email or password" });
         }
@@ -89,13 +93,15 @@ router.post("/register", async (req, res, next) => {
       });
     }
 
-    // In production, hash password with bcrypt
-    // For now, storing plain text (TO BE IMPROVED)
+    // SECURITY WARNING: Storing plain text passwords for development only
+    // CRITICAL TODO: Before production, hash passwords with bcrypt:
+    // const hashedPassword = await bcrypt.hash(data.password, 10)
+    // This is a CRITICAL security vulnerability that MUST be fixed before deployment
     const [newUser] = await db
       .insert(users)
       .values({
         email: data.email,
-        password: data.password, // Should be hashed
+        password: data.password, // Should be: hashedPassword
         name: data.name,
       })
       .returning();

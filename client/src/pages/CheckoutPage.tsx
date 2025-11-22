@@ -44,17 +44,17 @@ export default function CheckoutPage() {
         throw new Error('Failed to create order');
       }
 
-      const order = orderResponse.data as any;
+      const order = orderResponse.data;
 
       // Handle payment based on method
       if (data.paymentMethod === 'paypal') {
-        const paypalResponse = await api.createPayPalOrder(order.id);
+        const paypalResponse = await api.createPayPalOrder((order as any).id);
         if (!paypalResponse.success || !paypalResponse.data) {
           throw new Error('Failed to create PayPal order');
         }
         return { order, paymentData: paypalResponse.data };
       } else {
-        const payfastResponse = await api.createPayFastPayment(order.id);
+        const payfastResponse = await api.createPayFastPayment((order as any).id);
         if (!payfastResponse.success || !payfastResponse.data) {
           throw new Error('Failed to create PayFast payment');
         }
@@ -69,18 +69,18 @@ export default function CheckoutPage() {
       });
       
       // Handle redirect based on payment method
-      const paymentData = data.paymentData as any;
-      if (paymentData.id) {
+      const paymentData = data.paymentData;
+      if ((paymentData as any).id) {
         // PayPal - would normally redirect to PayPal
-        console.log('PayPal Order ID:', paymentData.id);
+        console.log('PayPal Order ID:', (paymentData as any).id);
         toast({
           title: 'Payment Ready',
           description: 'In production, you would be redirected to PayPal',
         });
         setLocation('/dashboard');
-      } else if (paymentData.url) {
+      } else if ((paymentData as any).url) {
         // PayFast - would normally redirect to PayFast
-        console.log('PayFast URL:', paymentData.url);
+        console.log('PayFast URL:', (paymentData as any).url);
         toast({
           title: 'Payment Ready',
           description: 'In production, you would be redirected to PayFast',

@@ -21,7 +21,7 @@ export const updateProfileSchema = z.object({
 export const createProductSchema = z.object({
   name: z.string().min(1, "Product name is required"),
   description: z.string().min(1, "Description is required"),
-  price: z.string().regex(/^\d+(\.\d{1,2})?$/, "Invalid price format"),
+  price: z.coerce.number().positive("Price must be a positive number"),
   image: z.string().url("Invalid image URL").optional(),
   category: z.string().min(1, "Category is required"),
   stock: z.number().int().min(0, "Stock must be non-negative"),

@@ -12,21 +12,22 @@ router.get("/", async (req, res, next) => {
   try {
     const { category, search, limit = "50", offset = "0" } = req.query;
 
-    let query = db.select().from(products);
+    let queryBuilder = db.select().from(products);
 
     // Apply category filter
     if (category && typeof category === "string") {
-      query = query.where(eq(products.category, category)) as any;
+      queryBuilder = queryBuilder.where(eq(products.category, category)) as typeof queryBuilder;
     }
 
-    // Apply search filter
+    // Apply search filter  
     if (search && typeof search === "string") {
-      query = query.where(
-        sql`${products.name} ILIKE ${`%${search}%`} OR ${products.description} ILIKE ${`%${search}%`}`
-      ) as any;
+      const searchTerm = `%${search}%`;
+      queryBuilder = queryBuilder.where(
+        sql`${products.name} ILIKE ${searchTerm} OR ${products.description} ILIKE ${searchTerm}`
+      ) as typeof queryBuilder;
     }
 
-    const allProducts = await query
+    const allProducts = await queryBuilder
       .limit(parseInt(limit as string))
       .offset(parseInt(offset as string));
 
@@ -73,7 +74,10 @@ router.post("/", requireAuth, async (req, res, next) => {
 
     const [product] = await db
       .insert(products)
-      .values(data)
+      .values({
+        ...data,
+        price: data.price.toFixed(2), // Convert number to string for decimal storage
+      })
       .returning();
 
     res.status(201).json({
@@ -91,12 +95,19 @@ router.put("/:id", requireAuth, async (req, res, next) => {
     const id = parseInt(req.params.id);
     const data = createProductSchema.partial().parse(req.body);
 
+    const updateData: any = {
+      ...data,
+      updatedAt: new Date(),
+    };
+    
+    // Convert price to string if present
+    if (data.price !== undefined) {
+      updateData.price = data.price.toFixed(2);
+    }
+
     const [product] = await db
       .update(products)
-      .set({
-        ...data,
-        updatedAt: new Date(),
-      })
+      .set(updateData)
       .where(eq(products.id, id))
       .returning();
 
